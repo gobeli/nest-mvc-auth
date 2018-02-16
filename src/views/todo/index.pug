@@ -8,11 +8,12 @@ block content
     +input.mr-4(placeholder='text', name='text')
     +button(type='submit' class="flex-no-shrink") Submit
   div(data-controller='todo')
-    each todo in todos 
+    each todo in todos
       .w-full.rounded.shadow.my-4.bg-white
         .p-4.flex.justify-between
           span.text-sm.text-grey-dark=todo.created.toLocaleString()
-          a.cursor-pointer(data-action=`todo#remove` data-id=todo.id) X
+          a.cursor-pointer(data-action=`todo#remove` data-id=todo.id)
+            i.fas.fa-times
         .px-6.py-4
           span= todo.text
 

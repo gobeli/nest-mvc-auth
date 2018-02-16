@@ -8,10 +8,10 @@ import { formatErrors } from '../helper';
 
 
 export class CrudController<T extends BaseEntity> {
-  constructor(private entityName: IEntityName, private service: EntityService<T>, private type: {new(fields): T}) {} 
+  constructor(private entityName: IEntityName, private service: EntityService<T>, private type: {new(fields): T}) {}
 
   @Get('')
-  async index(@Res() res) {
+  async index(@Req() req, @Res() res) {
     console.log('hello')
     const entities = await this.service.findAll();
     res.render(`${this.entityName.name}/index`, { [this.entityName.plural]: entities });
@@ -24,7 +24,7 @@ export class CrudController<T extends BaseEntity> {
   }
 
   @Post('edit/:id')
-  async add(@Param() params, @Body() entity: T, @Req() req, @Res() res): Promise<void> {
+  async save(@Param() params, @Body() entity: T, @Req() req, @Res() res): Promise<void> {
     let e = new this.type(entity);
     if (params.id) {
       const existing = await this.service.findById(params.id);
@@ -38,7 +38,7 @@ export class CrudController<T extends BaseEntity> {
       res.redirect('back');
     } else {
       try {
-        await this.service.save(e); 
+        await this.service.save(e);
       } catch (err) {
         req.session.flash = { type: 'error', message: err.message };
         res.redirect('back');
