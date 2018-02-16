@@ -5,16 +5,19 @@ import { BaseEntity } from './base.entity';
 import { IEntityName } from '../app.constants';
 import {validate} from "class-validator";
 import { formatErrors } from '../helper';
+import { CrudApiController } from './crud.api.controller';
 
 
-export class CrudController<T extends BaseEntity> {
-  constructor(private entityName: IEntityName, private service: EntityService<T>, private type: {new(fields): T}) {}
+export class CrudController<T extends BaseEntity> extends CrudApiController<T> {
+  constructor(private entityName: IEntityName, private s: EntityService<T>, private type: {new(fields): T}) {
+    super(s);
+  }
 
   @Get('')
   async index(@Req() req, @Res() res) {
-    console.log('hello')
-    const entities = await this.service.findAll();
+    const entities = await super.getAll();
     res.render(`${this.entityName.name}/index`, { [this.entityName.plural]: entities });
+    return entities;
   }
 
   @Get('edit/:id')
@@ -26,11 +29,10 @@ export class CrudController<T extends BaseEntity> {
   @Post('edit/:id')
   async save(@Param() params, @Body() entity: T, @Req() req, @Res() res): Promise<void> {
     let e = new this.type(entity);
-    if (params.id) {
+    if (params.id > 0) {
       const existing = await this.service.findById(params.id);
-      Object.keys(e).filter(k => k !== 'id').forEach(k => {
-        existing[k] = e[k];
-      });
+      Object.assign(existing, e);
+      e = existing;
     }
     const errors = await validate(e);
     if (errors.length > 0) {

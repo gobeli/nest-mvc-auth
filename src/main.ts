@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SessionModule } from './session/session.module';
 import { SessionService } from './session/session.service';
 import { NotFoundExceptionFilter } from './not-found-exception.filter';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 
 async function bootstrap() {
@@ -17,6 +18,17 @@ async function bootstrap() {
 	app.use('/assets', express.static(path.join(__dirname, 'assets')));
   app.useGlobalFilters(new NotFoundExceptionFilter());
 	const service = app.select<SessionModule>(SessionModule).get<SessionService>(SessionService);
+
+
+  const options = new DocumentBuilder()
+    .setTitle('Todo Api')
+    .setVersion('1.0')
+		.addTag('todo')
+		.setBasePath('/api')
+    .build();
+  const document = SwaggerModule.createDocument(app, options);
+  SwaggerModule.setup('/api', app, document);
+
 	app.use(session({
 		cookie: { maxAge: 86400000 },
 		store: service,
