@@ -1,0 +1,7 @@
+mixin button(a)
+  if a
+    a.inline-block.no-underline.bg-white.p-2.border-2.rounded.text-blue.border-blue(class='hover:text-white hover:bg-blue')&attributes(attributes)
+      block
+  else 
+    button.bg-white.p-2.border-2.rounded.text-blue.border-blue(class='hover:text-white hover:bg-blue')&attributes(attributes)
+      block

@@ -1,0 +1,10 @@
+extends ../layout
+include ../mixins/_input
+include ../mixins/_button
+
+block content
+  h1= user ? 'Edit user' : 'New user'
+  form.w-full.mt-4(action=`/user/edit/${user ? user.id : 0}` method='POST')
+    +input.mb-4(placeholder='username' name='username' value=user && user.username)
+    +input.mb-4(placeholder='password' name='password' type='password')
+    +button(type='submit' class="flex-no-shrink") Submit

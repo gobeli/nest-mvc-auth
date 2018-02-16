@@ -1,0 +1,11 @@
+extends ../layout
+include ../mixins/_input
+include ../mixins/_button
+
+block content
+  h1 Login
+  form(action='/' method='POST')
+    +input.mt-4(placeholder='username' name='username')
+    +input.mt-4(placeholder='password' type='password' name='password')
+    +button.mt-4(type='submit') Submit
+    

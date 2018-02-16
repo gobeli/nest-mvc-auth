@@ -1,0 +1,4 @@
+mixin navItem(text, href, authRequired)
+  if (!authRequired && !userId) || (authRequired && userId)
+    a.flex-no-grow.flex-no-shrink.relative.py-4.px-4.leading-normal.text-white.no-underline.flex.items-center(class={'bg-grey-dark': path.indexOf(href) >= 0, 'hover:bg-grey-dark': true} href=href)&attributes(attributes)= text
+        

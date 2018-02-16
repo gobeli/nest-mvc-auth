@@ -1,0 +1,12 @@
+mixin message(color, message)
+  div(class=`flex fixed pin-r pin-b mb-4 w-auto bg-${color}-light animated fadeInRight z-10` data-controller='message')
+    div(class=`bg-${color}`)
+      .p-4
+        svg.h-8.w-8.text-white.fill-current(xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512')
+          block
+    .w-full.text-white.flex.items-center.p-4!= message
+    div.w-12
+      svg.cursor-pointer.fill-current(xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' data-action='click->message#remove')
+        path(fill='#3D4852' d='M341.22 170.781c-8.077-8.077-21.172-8.077-29.249 0L170.78 311.971c-8.077 8.077-8.077 21.172 0 29.249 4.038 4.039 9.332 6.058 14.625 6.058s10.587-2.019 14.625-6.058l141.19-141.191c8.076-8.076 8.076-21.171 0-29.248z')
+        path(fill='#3D4852' d='M341.22 311.971l-141.191-141.19c-8.076-8.077-21.172-8.077-29.248 0-8.077 8.076-8.077 21.171 0 29.248l141.19 141.191a20.616 20.616 0 0 0 14.625 6.058 20.618 20.618 0 0 0 14.625-6.058c8.075-8.077 8.075-21.172-.001-29.249z')
+    script(src='/assets/controllers/message_controller.js')
